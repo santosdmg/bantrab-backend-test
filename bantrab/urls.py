@@ -23,6 +23,6 @@ router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api', include(router.urls)),
+    path('api/', include(router.urls)),
     path('api-token-auth/', views.CustomAuthToken.as_view())
 ]
