@@ -42,6 +42,24 @@ class ImagesViewset(viewsets.ViewSet):
    """
     permission_classes = [IsAuthenticated]
 
+    def list(self, request):
+        try:
+            final_endpoint = settings.API_IMAGENES
+            response = requests.get(final_endpoint, headers={
+                'user': 'User123',
+                'password': 'Password123'
+            })
+
+            if not response.status_code in [200, 201, 202]:
+                return Response({'detail': f'Error en la api interno: {str(response.reason)}'},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({'data': response.json()}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print('ERROR: ', str(e))
+            return Response({'detail': 'No fue posible obtener el listado de imagenes'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
     def create(self, request):
         try:
             data = request.data
